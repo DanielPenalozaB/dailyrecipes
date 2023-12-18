@@ -1,118 +1,137 @@
+import { Navbar } from '@/components';
 import Image from 'next/image';
 
 export default function Home() {
     return (
-        <main className="flex min-h-screen flex-col items-center justify-between p-24">
-            <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-                <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-                    Get started by editing&nbsp;
-                    <code className="font-mono font-bold">
-                        src/app/page.tsx
-                    </code>
-                </p>
-                <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-                    <a
-                        className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-                        href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-                        target="_blank"
-                        rel="noopener noreferrer"
+        <>
+            <Navbar />
+            <div className="flex justify-between border-b border-gray-300 px-52">
+                <div className="flex w-full items-center justify-between">
+                    <ul className="flex">
+                        <li
+                            className="cursor-pointer border-b border-rose-500 px-4 py-2 text-rose-500"
+                            title="All"
+                        >
+                            All
+                        </li>
+                        <li
+                            className="cursor-pointer border-b border-white px-4 py-2 text-gray-500 hover:border-rose-500 hover:text-rose-500"
+                            title="Specials"
+                        >
+                            Specials
+                        </li>
+                        <li
+                            className="cursor-pointer border-b border-white px-4 py-2 text-gray-500 hover:border-rose-500 hover:text-rose-500"
+                            title="Lunch"
+                        >
+                            Lunch
+                        </li>
+                        <li
+                            className="cursor-pointer border-b border-white px-4 py-2 text-gray-500 hover:border-rose-500 hover:text-rose-500"
+                            title="Dinner"
+                        >
+                            Dinner
+                        </li>
+                        <li
+                            className="cursor-pointer border-b border-white px-4 py-2 text-gray-500 hover:border-rose-500 hover:text-rose-500"
+                            title="Snacks"
+                        >
+                            Snacks
+                        </li>
+                        <li
+                            className="cursor-pointer border-b border-white px-4 py-2 text-gray-500 hover:border-rose-500 hover:text-rose-500"
+                            title="Breakfasts"
+                        >
+                            Breakfasts
+                        </li>
+                        <li
+                            className="cursor-pointer border-b border-white px-4 py-2 text-gray-500 hover:border-rose-500 hover:text-rose-500"
+                            title="Drinks"
+                        >
+                            Drinks
+                        </li>
+                    </ul>
+                </div>
+                <div className="flex items-center gap-4">
+                    <div className='h-1/2 w-[1px] bg-gray-300' />
+                    <button
+                        type="button"
+                        className="flex items-center gap-2 fill-gray-700 px-2 py-1 text-sm text-gray-700 hover:fill-gray-500 hover:text-gray-600"
                     >
-                        By{' '}
-                        <Image
-                            src="/vercel.svg"
-                            alt="Vercel Logo"
-                            className="dark:invert"
-                            width={100}
-                            height={24}
-                            priority
-                        />
-                    </a>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            id="Layer_1"
+                            viewBox="0 0 24 24"
+                            className="h-5"
+                        >
+                            <path d="m22.942 6.837-2.182-2.183.947-.947a1 1 0 1 0 -1.414-1.414l-.947.947-2.183-2.182a3.7 3.7 0 0 0 -5.105 0 3.609 3.609 0 0 0 0 5.106l2.182 2.182-5.894 5.894-2.183-2.182a3.7 3.7 0 0 0 -5.105 0 3.609 3.609 0 0 0 0 5.106l2.182 2.182-.947.947a1 1 0 1 0 1.414 1.414l.947-.947 2.183 2.182a3.609 3.609 0 0 0 5.105 0 3.608 3.608 0 0 0 0-5.105l-2.182-2.182 5.9-5.895 2.182 2.182a3.609 3.609 0 0 0 5.105 0 3.608 3.608 0 0 0 0-5.105zm-11.942 13.553a1.6 1.6 0 0 1 -.472 1.138 1.647 1.647 0 0 1 -2.277 0l-5.779-5.779a1.61 1.61 0 1 1 2.277-2.277l5.779 5.779a1.6 1.6 0 0 1 .472 1.139zm10.528-9.862a1.647 1.647 0 0 1 -2.277 0l-5.779-5.779a1.61 1.61 0 1 1 2.277-2.277l5.779 5.779a1.609 1.609 0 0 1 0 2.277z" />
+                        </svg>
+                        Dietary
+                    </button>
+                    <button
+                        type="button"
+                        className="flex items-center gap-2 fill-gray-700 px-2 py-1 text-sm text-gray-700 hover:fill-gray-500 hover:text-gray-600"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            id="Layer_1"
+                            data-name="Layer 1"
+                            viewBox="0 0 24 24"
+                            className="h-5"
+                        >
+                            <path d="M13,0h-2c-2.206,0-4,1.794-4,4V20c0,2.206,1.794,4,4,4h2c2.206,0,4-1.794,4-4V4c0-2.206-1.794-4-4-4Zm0,22h-2c-1.103,0-2-.897-2-2V4c0-1.103,.897-2,2-2h2c1.103,0,2,.897,2,2v1h-2c-.553,0-1,.447-1,1s.447,1,1,1h2v2h-2c-.553,0-1,.447-1,1s.447,1,1,1h2v2h-2c-.553,0-1,.447-1,1s.447,1,1,1h2v2h-2c-.553,0-1,.447-1,1s.447,1,1,1h2v1c0,1.103-.897,2-2,2Z" />
+                        </svg>
+                        Calories
+                    </button>
+                    <div className="flex gap-1 text-sm">
+                        <span className="whitespace-nowrap text-gray-500">
+                            Sort by:
+                        </span>
+                        <button className="flex cursor-pointer gap-1 fill-gray-800 text-gray-800 hover:fill-gray-600 hover:text-gray-600">
+                            <span className="font-semibold">Recommended</span>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                id="Outline"
+                                viewBox="0 0 24 24"
+                                className="h-5"
+                            >
+                                <path d="M18.71,8.21a1,1,0,0,0-1.42,0l-4.58,4.58a1,1,0,0,1-1.42,0L6.71,8.21a1,1,0,0,0-1.42,0,1,1,0,0,0,0,1.41l4.59,4.59a3,3,0,0,0,4.24,0l4.59-4.59A1,1,0,0,0,18.71,8.21Z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div className='flex gap-2'>
+                        <button type="button" title="List" className='rotate-90 fill-gray-600 hover:fill-gray-500'>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                id="Layer_1"
+                                data-name="Layer 1"
+                                viewBox="0 0 24 24"
+                                className="h-5"
+                            >
+                                <path d="m2,1v22c0,.552-.447,1-1,1s-1-.448-1-1V1C0,.448.447,0,1,0s1,.448,1,1ZM15,0c-.553,0-1,.448-1,1v22c0,.552.447,1,1,1s1-.448,1-1V1c0-.552-.447-1-1-1Zm-7,0c-.553,0-1,.448-1,1v22c0,.552.447,1,1,1s1-.448,1-1V1c0-.552-.447-1-1-1Z" />
+                            </svg>
+                        </button>
+                        <button type="button" title="Cards" className='fill-gray-600 hover:fill-gray-500'>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                version="1.1"
+                                id="Capa_1"
+                                x="0px"
+                                y="0px"
+                                viewBox="0 0 512 512"
+                                className="h-5"
+                            >
+                                <g>
+                                    <path d="M85.333,0h64c47.128,0,85.333,38.205,85.333,85.333v64c0,47.128-38.205,85.333-85.333,85.333h-64   C38.205,234.667,0,196.462,0,149.333v-64C0,38.205,38.205,0,85.333,0z" />
+                                    <path d="M362.667,0h64C473.795,0,512,38.205,512,85.333v64c0,47.128-38.205,85.333-85.333,85.333h-64   c-47.128,0-85.333-38.205-85.333-85.333v-64C277.333,38.205,315.538,0,362.667,0z" />
+                                    <path d="M85.333,277.333h64c47.128,0,85.333,38.205,85.333,85.333v64c0,47.128-38.205,85.333-85.333,85.333h-64   C38.205,512,0,473.795,0,426.667v-64C0,315.538,38.205,277.333,85.333,277.333z" />
+                                    <path d="M362.667,277.333h64c47.128,0,85.333,38.205,85.333,85.333v64C512,473.795,473.795,512,426.667,512h-64   c-47.128,0-85.333-38.205-85.333-85.333v-64C277.333,315.538,315.538,277.333,362.667,277.333z" />
+                                </g>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
-
-            <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px]">
-                <Image
-                    className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-                    src="/next.svg"
-                    alt="Next.js Logo"
-                    width={180}
-                    height={37}
-                    priority
-                />
-            </div>
-
-            <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-                <a
-                    href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-                    className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <h2 className={`mb-3 text-2xl font-semibold`}>
-                        Docs{' '}
-                        <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-                            -&gt;
-                        </span>
-                    </h2>
-                    <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-                        Find in-depth information about Next.js features and
-                        API.
-                    </p>
-                </a>
-
-                <a
-                    href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                    className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <h2 className={`mb-3 text-2xl font-semibold`}>
-                        Learn{' '}
-                        <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-                            -&gt;
-                        </span>
-                    </h2>
-                    <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-                        Learn about Next.js in an interactive course
-                        with&nbsp;quizzes!
-                    </p>
-                </a>
-
-                <a
-                    href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-                    className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <h2 className={`mb-3 text-2xl font-semibold`}>
-                        Templates{' '}
-                        <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-                            -&gt;
-                        </span>
-                    </h2>
-                    <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-                        Explore starter templates for Next.js.
-                    </p>
-                </a>
-
-                <a
-                    href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-                    className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <h2 className={`mb-3 text-2xl font-semibold`}>
-                        Deploy{' '}
-                        <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-                            -&gt;
-                        </span>
-                    </h2>
-                    <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-                        Instantly deploy your Next.js site to a shareable URL
-                        with Vercel.
-                    </p>
-                </a>
-            </div>
-        </main>
+        </>
     );
 }
