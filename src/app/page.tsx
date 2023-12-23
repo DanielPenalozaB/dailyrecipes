@@ -27,7 +27,7 @@ export default function Home() {
             <Navbar />
             <div className="flex justify-center py-8">
                 <div className="flex w-full max-w-5xl flex-col">
-                    <div className="flex items-center justify-between">
+                    <div className="flex w-full items-center justify-between">
                         <h1 className="text-2xl font-semibold text-gray-800">
                             What do you want to do cook today?
                         </h1>
@@ -55,7 +55,7 @@ export default function Home() {
                             </button>
                         </div>
                     </div>
-                    <div className="mt-12 flex flex-wrap gap-8">
+                    <div className="mt-12 flex flex-wrap items-center justify-center gap-6">
                         {recipes.map((recipe) => (
                             <RecipeCard key={recipe.id} data={recipe} />
                         ))}
