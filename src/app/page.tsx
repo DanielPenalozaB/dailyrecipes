@@ -56,12 +56,24 @@ export default function Home() {
                         </div>
                     </div>
                     <div className="mt-12 flex flex-wrap items-center justify-center gap-6">
-                        {recipes.map((recipe) => (
-                            <RecipeCard key={recipe.id} data={recipe} />
-                        ))}
+                        {recipes.length > 0 ? (
+                            recipes.map((recipe) => (
+                                <RecipeCard key={recipe.id} data={recipe} />
+                            ))
+                        ) : (
+                            <>
+                                <div className="h-[354px] w-[290px] animate-pulse rounded-2xl bg-gray-300" />
+                                <div className="h-[354px] w-[290px] animate-pulse rounded-2xl bg-gray-300" />
+                                <div className="h-[354px] w-[290px] animate-pulse rounded-2xl bg-gray-300" />
+                                <div className="h-[354px] w-[290px] animate-pulse rounded-2xl bg-gray-300" />
+                                <div className="h-[354px] w-[290px] animate-pulse rounded-2xl bg-gray-300" />
+                                <div className="h-[354px] w-[290px] animate-pulse rounded-2xl bg-gray-300" />
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
+            <footer className='flex h-[10vh] w-full justify-center bg-rose-100'></footer>
         </>
     );
 }
