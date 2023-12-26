@@ -1,10 +1,19 @@
+"use client"
+
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 export default function Navbar() {
+    const router = useRouter();
+
+    const login = () => {
+        router.push('/auth');
+    };
+
     return (
         <>
-            <nav className="flex w-full items-center justify-between border-b border-gray-300 px-52 py-8">
+            <nav className="flex w-full items-center justify-between border-b border-gray-300 p-8 sm:px-52">
                 <div className="flex items-center gap-12">
                     <Link href={'/'}>
                         <svg
@@ -18,7 +27,7 @@ export default function Navbar() {
                         </svg>
                     </Link>
                     <ul className="flex gap-8">
-                        <li>
+                        <li className="hidden lg:block">
                             <Link
                                 href={'/'}
                                 className="text-gray-500 hover:text-rose-500"
@@ -26,7 +35,7 @@ export default function Navbar() {
                                 Meal plans
                             </Link>
                         </li>
-                        <li>
+                        <li className="hidden lg:block">
                             <Link
                                 href={'/recipes'}
                                 className="text-gray-500 hover:text-rose-500"
@@ -34,7 +43,7 @@ export default function Navbar() {
                                 Recipes
                             </Link>
                         </li>
-                        <li>
+                        <li className="hidden lg:block">
                             <Link
                                 href={'/my-recipes'}
                                 className="text-gray-500 hover:text-rose-500"
@@ -42,7 +51,7 @@ export default function Navbar() {
                                 My recipes
                             </Link>
                         </li>
-                        <li>
+                        <li className="hidden lg:block">
                             <Link
                                 href={'/ingredients'}
                                 className="text-gray-500 hover:text-rose-500"
@@ -68,6 +77,7 @@ export default function Navbar() {
                         </svg>
                     </button>
                     <button
+                        onClick={login}
                         type="button"
                         title="User"
                         className="rounded-lg border border-gray-200 bg-white fill-gray-600 p-3 hover:bg-gray-100"
@@ -84,7 +94,7 @@ export default function Navbar() {
                     </button>
                 </div>
             </nav>
-            <div className="flex justify-between border-b border-gray-300 px-52">
+            <div className="flex justify-between border-b border-gray-300 px-8 sm:px-52">
                 <div className="flex w-full items-center justify-between">
                     <ul className="flex">
                         <li
@@ -94,37 +104,37 @@ export default function Navbar() {
                             All
                         </li>
                         <li
-                            className="cursor-pointer border-b border-white px-4 py-2 text-gray-500 hover:border-rose-500 hover:text-rose-500"
+                            className="hidden cursor-pointer border-b border-white px-4 py-2 text-gray-500 hover:border-rose-500 hover:text-rose-500 2xl:block"
                             title="Specials"
                         >
                             Specials
                         </li>
                         <li
-                            className="cursor-pointer border-b border-white px-4 py-2 text-gray-500 hover:border-rose-500 hover:text-rose-500"
+                            className="hidden cursor-pointer border-b border-white px-4 py-2 text-gray-500 hover:border-rose-500 hover:text-rose-500 2xl:block"
                             title="Lunch"
                         >
                             Lunch
                         </li>
                         <li
-                            className="cursor-pointer border-b border-white px-4 py-2 text-gray-500 hover:border-rose-500 hover:text-rose-500"
+                            className="hidden cursor-pointer border-b border-white px-4 py-2 text-gray-500 hover:border-rose-500 hover:text-rose-500 2xl:block"
                             title="Dinner"
                         >
                             Dinner
                         </li>
                         <li
-                            className="cursor-pointer border-b border-white px-4 py-2 text-gray-500 hover:border-rose-500 hover:text-rose-500"
+                            className="hidden cursor-pointer border-b border-white px-4 py-2 text-gray-500 hover:border-rose-500 hover:text-rose-500 2xl:block"
                             title="Snacks"
                         >
                             Snacks
                         </li>
                         <li
-                            className="cursor-pointer border-b border-white px-4 py-2 text-gray-500 hover:border-rose-500 hover:text-rose-500"
+                            className="hidden cursor-pointer border-b border-white px-4 py-2 text-gray-500 hover:border-rose-500 hover:text-rose-500 2xl:block"
                             title="Breakfasts"
                         >
                             Breakfasts
                         </li>
                         <li
-                            className="cursor-pointer border-b border-white px-4 py-2 text-gray-500 hover:border-rose-500 hover:text-rose-500"
+                            className="hidden cursor-pointer border-b border-white px-4 py-2 text-gray-500 hover:border-rose-500 hover:text-rose-500 2xl:block"
                             title="Drinks"
                         >
                             Drinks
@@ -132,10 +142,10 @@ export default function Navbar() {
                     </ul>
                 </div>
                 <div className="flex items-center gap-4">
-                    <div className="h-1/2 w-[1px] bg-gray-300" />
+                    <div className="hidden h-1/2 w-[1px] bg-gray-300 lg:block" />
                     <button
                         type="button"
-                        className="flex items-center gap-2 fill-gray-500 px-2 py-1 text-sm text-gray-500 hover:fill-gray-400 hover:text-gray-400"
+                        className="hidden items-center gap-2 fill-gray-500 px-2 py-1 text-sm text-gray-500 hover:fill-gray-400 hover:text-gray-400 lg:flex"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -149,7 +159,7 @@ export default function Navbar() {
                     </button>
                     <button
                         type="button"
-                        className="flex items-center gap-2 fill-gray-500 px-2 py-1 text-sm text-gray-500 hover:fill-gray-400 hover:text-gray-400"
+                        className="hidden items-center gap-2 fill-gray-500 px-2 py-1 text-sm text-gray-500 hover:fill-gray-400 hover:text-gray-400 lg:flex"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -162,7 +172,7 @@ export default function Navbar() {
                         </svg>
                         Calories
                     </button>
-                    <div className="flex gap-1 text-sm">
+                    <div className="hidden gap-1 text-sm lg:flex">
                         <span className="whitespace-nowrap text-gray-500">
                             Sort by:
                         </span>

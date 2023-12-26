@@ -26,8 +26,8 @@ export default function Home() {
         <>
             <Navbar />
             <div className="flex justify-center py-8">
-                <div className="flex w-full max-w-5xl flex-col">
-                    <div className="flex w-full items-center justify-between">
+                <div className="flex w-full max-w-7xl flex-col">
+                    <div className="flex w-full flex-col items-center justify-between gap-4 px-8 sm:flex-row">
                         <h1 className="text-2xl font-semibold text-gray-800">
                             What do you want to do cook today?
                         </h1>
