@@ -29,7 +29,7 @@ export default function Recipe({ params }: { params: { id: string } }) {
     return (
         <>
             <Head>
-                <title>{title}</title>
+                <title>Recipe klk</title>
             </Head>
             <Navbar />
             <section className="flex justify-center py-8">
