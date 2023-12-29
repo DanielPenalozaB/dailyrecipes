@@ -1,0 +1,232 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DEV_DATABASE_URL")
+}
+
+model User {
+    id        String  @id @db.VarChar(50)
+    Country   Country @relation(fields: [countryId], references: [id])
+    countryId String  @db.VarChar(50)
+
+    createdAt         DateTime @default(now())
+    modifiedAt        DateTime @updatedAt
+    username          String   @db.VarChar(50)
+    image             String?  @db.LongText
+    email             String   @unique @db.VarChar(255)
+    password          String   @db.VarChar(255)
+    isAdmin           Int      @default(0) @db.TinyInt() // 0 = false, 1 = true
+    emailConfirmed    Int      @default(0) @db.TinyInt() // 0 = false, 1 = true
+    preferredLanguage String   @db.VarChar(50)
+
+    ingredients Ingredient[]
+    recipes     Recipe[]
+    stores      Store[]
+    likes       LikexRecipe[]
+}
+
+model Country {
+    id   String @id @db.VarChar(50)
+    name String @db.VarChar(50)
+
+    users   User[]
+    recipes Recipe[]
+}
+
+model Recipe {
+    id       String  @id @db.VarChar(50)
+    user     User    @relation(fields: [userId], references: [id])
+    origin   Country @relation(fields: [originId], references: [id])
+    userId   String  @db.VarChar(50)
+    originId String  @db.VarChar(50)
+
+    createdAt   DateTime @default(now())
+    modifiedAt  DateTime @updatedAt
+    title       String   @db.VarChar(255)
+    description String   @db.LongText
+    thumbnail   String   @db.LongText
+    rating      Int      @default(0) @db.Int()
+    duration    Int      @default(0) @db.Int()
+    url         String   @db.VarChar(255)
+    history     String   @db.LongText
+    isPublished Int      @default(0) @db.TinyInt() // 0 = false, 1 = true
+    isPublic    Int      @default(0) @db.TinyInt() // 0 = false, 1 = true
+
+    ingredients  IngredientxRecipe[]
+    instructions Instruction[]
+    categories   CategoryxRecipe[]
+    tags         TagxRecipe[]
+    tastes       TastexRecipe[]
+    images       ImagexRecipe[]
+    tips         TipxRecipe[]
+    references   ReferencexRecipe[]
+    likes        LikexRecipe[]
+}
+
+model IngredientxRecipe {
+    id           String           @id @db.VarChar(50)
+    recipe       Recipe           @relation(fields: [recipeId], references: [id])
+    ingredient   IngredientxStore @relation(fields: [ingredientId], references: [id])
+    recipeId     String           @db.VarChar(50)
+    ingredientId String           @db.VarChar(50)
+
+    quantity   Int @default(1) @db.Int()
+    isOptional Int @default(0) @db.TinyInt() // 0 = false, 1 = true
+}
+
+model Ingredient {
+    id     String @id @db.VarChar(50)
+    user   User   @relation(fields: [userId], references: [id])
+    userId String @db.VarChar(50)
+
+    createdAt   DateTime @default(now())
+    modifiedAt  DateTime @updatedAt
+    name        String   @db.VarChar(255)
+    description String   @db.LongText
+
+    ingredients IngredientxStore[]
+}
+
+model IngredientxStore {
+    id           String     @id @db.VarChar(50)
+    store        Store      @relation(fields: [storeId], references: [id])
+    ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+    storeId      String     @db.VarChar(50)
+    ingredientId String     @db.VarChar(50)
+
+    unit   String @db.VarChar(50)
+    weight Int    @default(1) @db.Int()
+    price  Int    @default(1) @db.Int()
+
+    ingredients IngredientxRecipe[]
+}
+
+model Store {
+    id       String @id @db.VarChar(50)
+    user     User   @relation(fields: [userId], references: [id])
+    userId   String @db.VarChar(50)
+    name     String @db.VarChar(255)
+    location String @db.LongText
+    image    String @db.LongText
+    logo     String @db.LongText
+    color    String @db.VarChar(6)
+
+    ingredients IngredientxStore[]
+}
+
+model Instruction {
+    id       String @id @db.VarChar(50)
+    recipe   Recipe @relation(fields: [recipeId], references: [id])
+    recipeId String @db.VarChar(50)
+
+    title       String @db.VarChar(255)
+    description String @db.LongText
+    step        Int    @default(1) @db.Int()
+}
+
+model CategoryxRecipe {
+    id         String   @id @db.VarChar(50)
+    recipe     Recipe   @relation(fields: [recipeId], references: [id])
+    category   Category @relation(fields: [categoryId], references: [id])
+    recipeId   String   @db.VarChar(50)
+    categoryId String   @db.VarChar(50)
+}
+
+model Category {
+    id   String @id @db.VarChar(50)
+    name String @db.VarChar(50)
+
+    categories CategoryxRecipe[]
+}
+
+model TagxRecipe {
+    id       String @id @db.VarChar(50)
+    recipe   Recipe @relation(fields: [recipeId], references: [id])
+    tag      Tag    @relation(fields: [tagId], references: [id])
+    recipeId String @db.VarChar(50)
+    tagId    String @db.VarChar(50)
+}
+
+model Tag {
+    id   String @id @db.VarChar(50)
+    name String @db.VarChar(50)
+
+    tags TagxRecipe[]
+}
+
+model TastexRecipe {
+    id       String @id @db.VarChar(50)
+    recipe   Recipe @relation(fields: [recipeId], references: [id])
+    taste    Taste  @relation(fields: [tasteId], references: [id])
+    recipeId String @db.VarChar(50)
+    tasteId  String @db.VarChar(50)
+}
+
+model Taste {
+    id          String @id @db.VarChar(50)
+    name        String @db.VarChar(50)
+    description String @db.LongText
+
+    tastes TastexRecipe[]
+}
+
+model ImagexRecipe {
+    id       String @id @db.VarChar(50)
+    recipe   Recipe @relation(fields: [recipeId], references: [id])
+    image    Image  @relation(fields: [imageId], references: [id])
+    recipeId String @db.VarChar(50)
+    imageId  String @db.VarChar(50)
+}
+
+model Image {
+    id  String @id @db.VarChar(50)
+    url String @db.LongText
+
+    images ImagexRecipe[]
+}
+
+model TipxRecipe {
+    id       String @id @db.VarChar(50)
+    recipe   Recipe @relation(fields: [recipeId], references: [id])
+    tip      Tip    @relation(fields: [tipId], references: [id])
+    recipeId String @db.VarChar(50)
+    tipId    String @db.VarChar(50)
+}
+
+model Tip {
+    id          String @id @db.VarChar(50)
+    title       String @db.VarChar(255)
+    description String @db.LongText
+
+    tips TipxRecipe[]
+}
+
+model ReferencexRecipe {
+    id          String    @id @db.VarChar(50)
+    recipe      Recipe    @relation(fields: [recipeId], references: [id])
+    reference   Reference @relation(fields: [referenceId], references: [id])
+    recipeId    String    @db.VarChar(50)
+    referenceId String    @db.VarChar(50)
+}
+
+model Reference {
+    id  String @id @db.VarChar(50)
+    alt String @db.VarChar(255)
+    url String @db.LongText
+
+    references ReferencexRecipe[]
+}
+
+model LikexRecipe {
+    id       String @id
+    recipe   Recipe @relation(fields: [recipeId], references: [id])
+    user     User   @relation(fields: [userId], references: [id])
+    recipeId String
+    userId   String
+}
