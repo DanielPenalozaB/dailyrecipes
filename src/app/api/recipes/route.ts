@@ -75,13 +75,32 @@ export async function POST(request: NextRequest) {
                 }
             );
         } else {
-            console.log('PRINT', body);
-
             const recipe = await prisma.recipe.create({
                 data: { id: uuid(), ...body },
             });
 
-            console.log(recipe);
+            if (recipe.id) {
+                return NextResponse.json(
+                    {
+                        status: 'success',
+                        message: 'Recipe created successfully.',
+                    },
+                    {
+                        status: 201,
+                    }
+                );
+            } else {
+                return NextResponse.json(
+                    {
+                        status: 'error',
+                        message:
+                            'Internal server error. Please try again later.',
+                    },
+                    {
+                        status: 500,
+                    }
+                );
+            }
         }
     } catch (error) {
         return NextResponse.json(
