@@ -1,8 +1,11 @@
+import { VerifyConfirmationEmail } from '@/emails/verify/verifyConfirmation';
 import { PrismaClient } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
+import { Resend } from 'resend';
 
 export async function POST(request: NextRequest) {
     try {
+        const resend = new Resend(process.env.RESEND_API_KEY);
         const prisma = new PrismaClient();
 
         const body = await request.json();
@@ -26,16 +29,41 @@ export async function POST(request: NextRequest) {
                             },
                         });
 
-                        return NextResponse.json(
-                            {
-                                status: 'success',
-                                message: 'Email verified successfully.',
-                                data: user,
-                            },
-                            {
-                                status: 200,
-                            }
-                        );
+                        const email = VerifyConfirmationEmail({
+                            username: user.username,
+                        });
+
+                        const checkEmail = await resend.emails.send({
+                            to: user.email,
+                            from: 'Daily Recipes <info@danielpenalozab.com>',
+                            subject:
+                                '🎉 Welcome to Daily Recipes - Your Account is Verified!   ',
+                            html: email,
+                            reply_to: 'support@danielpenalozab.com',
+                        });
+
+                        if (checkEmail.error) {
+                            return NextResponse.json(
+                                {
+                                    status: 'error',
+                                    message: 'Email verification failed.',
+                                },
+                                {
+                                    status: 400,
+                                }
+                            );
+                        } else {
+                            return NextResponse.json(
+                                {
+                                    status: 'success',
+                                    message: 'Email verified successfully.',
+                                    data: user,
+                                },
+                                {
+                                    status: 200,
+                                }
+                            );
+                        }
                     } else {
                         return NextResponse.json(
                             {

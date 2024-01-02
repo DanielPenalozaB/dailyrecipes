@@ -1,5 +1,10 @@
+import { SESSION_TOKEN } from '@/constants';
 import { PrismaClient } from '@prisma/client';
+import { serialize } from 'cookie';
+import { sign } from 'jsonwebtoken';
 import { NextResponse } from 'next/server';
+
+const MAX_AGE = 60 * 60 * 24 * 30; // 30 days
 
 export async function POST(request: Request) {
     try {
@@ -26,13 +31,36 @@ export async function POST(request: Request) {
                         }
                     );
                 } else {
+                    const secret = process.env.JWT_SECRET || '';
+
+                    const token = sign(
+                        {
+                            email: findUser.email,
+                        },
+                        secret,
+                        {
+                            expiresIn: MAX_AGE,
+                        }
+                    );
+
+                    const serialized = serialize(SESSION_TOKEN, token, {
+                        httpOnly: true,
+                        secure: process.env.NODE_ENV === 'production',
+                        maxAge: MAX_AGE,
+                        sameSite: 'strict',
+                        path: '/',
+                    });
+
                     return NextResponse.json(
                         {
                             status: 'success',
-                            message: 'Login successful.',
+                            message: 'Authenticated.',
                         },
                         {
                             status: 200,
+                            headers: {
+                                'Set-Cookie': serialized,
+                            },
                         }
                     );
                 }

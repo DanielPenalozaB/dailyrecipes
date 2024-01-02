@@ -1,15 +1,23 @@
-<html lang="en">
+import { BASE_URL } from '@/constants';
+import Head from 'next/head';
+import Image from 'next/image';
+import Link from 'next/link';
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verify Account</title>
-</head>
+interface EmailTemplateProps {
+    username: string;
+    id: string;
+    otp: string[];
+}
+
+export function VerifyEmail({ username, id, otp }: EmailTemplateProps): string {
+    return `<html>
+
+<head></head>
 
 <body style="margin: 0;padding: 0;">
     <div style="padding:32px 8px;background: #f3f4f6;font-family: Helvetica, sans-serif;">
         <table cellpadding="0" cellspacing="0"
-            style="width:100%; margin:0 auto; max-width:600px; border-radius:30px; overflow:hidden; background-color:#ffffff;">
+            style="width:100%; margin:0 auto; max-width:540px; border-radius:30px; overflow:hidden; background-color:#ffffff;">
             <tbody>
                 <tr>
                     <td style="padding: 30px;">
@@ -21,7 +29,7 @@
                 <tr>
                     <td style="padding: 0 30px;line-height: 1.5;">
                         <p style="margin:0;color: #1f2937 !important;font-size: 18px;">
-                            Hello ${user.username},
+                            Hello ${username},
                             <br />
                             <br />
                             Welcome to Daily Recipes We're excited to have you on board.
@@ -42,42 +50,42 @@
                                         style="overflow-wrap:break-word;word-break:break-word;font-family:arial,helvetica,sans-serif;padding: 0;">
                                         <div
                                             style="margin:0; padding: 15px 0; width: 40px; border: 1.5px solid #9ca3af;border-radius: 20px;color: #1f2937;text-align: center;">
-                                            1
+                                            ${otp[0]}
                                         </div>
                                     </td>
                                     <td align="center"
                                         style="overflow-wrap:break-word;word-break:break-word;font-family:arial,helvetica,sans-serif;padding: 0;">
                                         <div
                                             style="margin:0; padding: 15px 0; width: 40px; border: 1.5px solid #9ca3af;border-radius: 20px;color: #1f2937;text-align: center;">
-                                            1
+                                            ${otp[1]}
                                         </div>
                                     </td>
                                     <td align="center"
                                         style="overflow-wrap:break-word;word-break:break-word;font-family:arial,helvetica,sans-serif;padding: 0;">
                                         <div
                                             style="margin:0; padding: 15px 0; width: 40px; border: 1.5px solid #9ca3af;border-radius: 20px;color: #1f2937;text-align: center;">
-                                            1
+                                            ${otp[2]}
                                         </div>
                                     </td>
                                     <td align="center"
                                         style="overflow-wrap:break-word;word-break:break-word;font-family:arial,helvetica,sans-serif;padding: 0;">
                                         <div
                                             style="margin:0; padding: 15px 0; width: 40px; border: 1.5px solid #9ca3af;border-radius: 20px;color: #1f2937;text-align: center;">
-                                            1
+                                            ${otp[3]}
                                         </div>
                                     </td>
                                     <td align="center"
                                         style="overflow-wrap:break-word;word-break:break-word;font-family:arial,helvetica,sans-serif;padding: 0;">
                                         <div
                                             style="margin:0; padding: 15px 0; width: 40px; border: 1.5px solid #9ca3af;border-radius: 20px;color: #1f2937;text-align: center;">
-                                            1
+                                            ${otp[4]}
                                         </div>
                                     </td>
                                     <td align="center"
                                         style="overflow-wrap:break-word;word-break:break-word;font-family:arial,helvetica,sans-serif;padding: 0;">
                                         <div
                                             style="margin:0; padding: 15px 0; width: 40px; border: 1.5px solid #9ca3af;border-radius: 20px;color: #1f2937;text-align: center;">
-                                            1
+                                            ${otp[5]}
                                         </div>
                                     </td>
                                 </tr>
@@ -88,10 +96,9 @@
                 <tr>
                     <td style="padding:30px">
                         <span style="display:block;background-color:#f43f5e;border:0px;border-radius:30px;width:auto">
-                            <a rel="noopener"
-                                style="display:block;width:auto;padding:15px 20px 15px 20px;background-color:#f43f5e;font-weight:bold;border-radius:30px;font-size:22px;font-style:normal;line-height:120%;color:#ffffff;text-align:center;text-decoration: none;"
+                            <a rel="noopener" style="display:block;width:auto;padding:15px 20px 15px 20px;background-color:#f43f5e;font-weight:bold;border-radius:30px;font-size:22px;font-style:normal;line-height:120%;color:#ffffff;text-align:center;text-decoration: none;"
                                 target="_blank"
-                                href="https://dailyrecipes.danielpenalozab.com/auth/verify/${user.id}">Verify</a>
+                                href="https://dailyrecipes.danielpenalozab.com/auth/verify/${id}">Verify</a>
                         </span>
                     </td>
                 </tr>
@@ -110,7 +117,7 @@
             </tbody>
         </table>
         <table
-            style="width:100%; margin:0 auto; max-width:600px;border-collapse: collapse;border-spacing: 0px;border: 0px;">
+            style="width:100%; margin:0 auto; max-width:540px;border-collapse: collapse;border-spacing: 0px;border: 0px;">
             <tbody>
                 <tr>
                     <td style="padding: 30px 30px 0;color: #1f2937;font-size: 13px;text-align: center;">
@@ -137,4 +144,5 @@
     </div>
 </body>
 
-</html>
+</html>`;
+}

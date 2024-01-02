@@ -23,9 +23,29 @@ export default function Auth() {
 
     const login = useCallback(async () => {
         try {
-            console.log('login:', email, password);
-            router.push('/');
-            router.push('/');
+            const PAYLOAD = {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email,
+                    password,
+                }),
+            };
+
+            const response = await fetch('/api/auth/login', PAYLOAD);
+
+            const data = await response.json();
+
+            console.log(data);
+
+            if (data.error) {
+                console.log(data.error);
+            } else {
+                console.log(data);
+                router.push('/');
+            }
         } catch (error) {
             console.log(error);
         }
