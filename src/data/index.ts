@@ -404,4 +404,25 @@ const RECIPES = [
     },
 ];
 
-export { RECIPES };
+const LANGUAGES = [
+    { label: 'English', abbr: 'en', image: 'usa' },
+    { label: 'Español', abbr: 'es', image: 'spain' },
+    { label: 'Français', abbr: 'fr', image: 'france' },
+];
+
+const COUNTRIES = [
+    { label: 'United States', abbr: 'us', image: 'usa' },
+    { label: 'Span', abbr: 'es', image: 'spain' },
+    { label: 'Colombia', abbr: 'co', image: 'colombia' },
+    { label: 'France', abbr: 'fr', image: 'france' },
+    { label: 'Brazil', abbr: 'br', image: 'brazil' },
+    { label: 'India', abbr: 'in', image: 'india' },
+    { label: 'China', abbr: 'cn', image: 'china' },
+    { label: 'Japan', abbr: 'jp', image: 'japan' },
+    { label: 'Canada', abbr: 'ca', image: 'canada' },
+    { label: 'Germany', abbr: 'de', image: 'germany' },
+    { label: 'Turkey', abbr: 'tr', image: 'turkey' },
+    { label: 'United Kingdom', abbr: 'gb', image: 'uk' },
+];
+
+export { RECIPES, LANGUAGES, COUNTRIES };
