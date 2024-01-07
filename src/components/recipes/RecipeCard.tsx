@@ -8,8 +8,6 @@ import React, { useState } from 'react';
 export default function RecipeCard({ data }: { data: Recipe }) {
     const [star, setStar] = useState(false);
 
-    console.log(data);
-
     return (
         <Link
             href={`/recipes/${data.url}`}

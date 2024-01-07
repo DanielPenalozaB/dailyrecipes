@@ -1,6 +1,9 @@
 'use client';
 
+import { SESSION_TOKEN } from '@/constants';
 import { useOutsideClick } from '@/hooks';
+import { serialize } from 'cookie';
+import { sign } from 'jsonwebtoken';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -15,8 +18,20 @@ export default function Navbar({ labels = true }: NavbarInterface) {
 
     const userRef = useOutsideClick(() => setOpen(false));
 
-    const login = () => {
-        router.push('/auth');
+    const logout = async () => {
+        try {
+            const response = await fetch('/api/auth/logout', {
+                method: 'POST',
+            });
+
+            const { status } = await response.json();
+
+            if (status === 'success') {
+                router.push('/');
+            }
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -177,7 +192,10 @@ export default function Navbar({ labels = true }: NavbarInterface) {
                                         </Link>
                                     </li>
                                     <li className="w-full">
-                                        <div className="flex w-full cursor-pointer items-center justify-center gap-6 rounded-xl px-4 py-2 hover:bg-gray-200">
+                                        <div
+                                            onClick={logout}
+                                            className="flex w-full cursor-pointer items-center justify-center gap-6 rounded-xl px-4 py-2 hover:bg-gray-200"
+                                        >
                                             <div className="flex h-5 w-5 min-w-5 items-center justify-center">
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
