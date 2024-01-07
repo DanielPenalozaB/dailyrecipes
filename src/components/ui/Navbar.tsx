@@ -1,11 +1,19 @@
-"use client"
+'use client';
 
+import { useOutsideClick } from '@/hooks';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-export default function Navbar() {
+interface NavbarInterface {
+    labels?: boolean;
+}
+
+export default function Navbar({ labels = true }: NavbarInterface) {
     const router = useRouter();
+    const [open, setOpen] = React.useState(false);
+
+    const userRef = useOutsideClick(() => setOpen(false));
 
     const login = () => {
         router.push('/auth');
@@ -76,25 +84,126 @@ export default function Navbar() {
                             <path d="M23.707,22.293l-5.969-5.969a10.016,10.016,0,1,0-1.414,1.414l5.969,5.969a1,1,0,0,0,1.414-1.414ZM10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18Z" />
                         </svg>
                     </button>
-                    <button
-                        onClick={login}
-                        type="button"
-                        title="User"
-                        className="rounded-lg border border-gray-200 bg-white fill-gray-600 p-3 hover:bg-gray-100"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            id="Outline"
-                            viewBox="0 0 24 24"
-                            className="h-4"
+                    <div className="relative">
+                        <button
+                            onClick={() => setOpen((open) => !open)}
+                            type="button"
+                            title="User"
+                            className="rounded-lg border border-gray-200 bg-white fill-gray-600 p-3 hover:bg-gray-100"
                         >
-                            <path d="M12,12A6,6,0,1,0,6,6,6.006,6.006,0,0,0,12,12ZM12,2A4,4,0,1,1,8,6,4,4,0,0,1,12,2Z" />
-                            <path d="M12,14a9.01,9.01,0,0,0-9,9,1,1,0,0,0,2,0,7,7,0,0,1,14,0,1,1,0,0,0,2,0A9.01,9.01,0,0,0,12,14Z" />
-                        </svg>
-                    </button>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                id="Outline"
+                                viewBox="0 0 24 24"
+                                className="h-4"
+                            >
+                                <path d="M12,12A6,6,0,1,0,6,6,6.006,6.006,0,0,0,12,12ZM12,2A4,4,0,1,1,8,6,4,4,0,0,1,12,2Z" />
+                                <path d="M12,14a9.01,9.01,0,0,0-9,9,1,1,0,0,0,2,0,7,7,0,0,1,14,0,1,1,0,0,0,2,0A9.01,9.01,0,0,0,12,14Z" />
+                            </svg>
+                        </button>
+                        {open && (
+                            <div
+                                ref={userRef}
+                                className="absolute right-0 top-[calc(100%+.5rem)] flex min-w-48 flex-col gap-1 rounded-2xl border border-gray-200 bg-white p-2 text-gray-600 shadow-xl"
+                            >
+                                <ul>
+                                    <li className="w-full">
+                                        <Link
+                                            href={'/account'}
+                                            className="flex w-full cursor-pointer items-center justify-center gap-6 rounded-xl px-4 py-2 hover:bg-gray-200"
+                                        >
+                                            <div className="flex h-5 w-5 min-w-5 items-center justify-center">
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    strokeWidth="1.5"
+                                                    stroke="currentColor"
+                                                    aria-hidden="true"
+                                                    className="h-5 min-h-5 w-5 min-w-5 stroke-gray-600"
+                                                >
+                                                    <path
+                                                        d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                    ></path>
+                                                </svg>
+                                            </div>
+                                            <span className="w-full">
+                                                Account
+                                            </span>
+                                        </Link>
+                                    </li>
+                                    <li className="w-full">
+                                        <Link
+                                            href={'/recipes'}
+                                            className="flex w-full cursor-pointer items-center justify-center gap-6 rounded-xl px-4 py-2 hover:bg-gray-200"
+                                        >
+                                            <div className="flex h-5 w-5 min-w-5 items-center justify-center">
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    id="Layer_1"
+                                                    data-name="Layer 1"
+                                                    viewBox="0 0 24 24"
+                                                    className="h-4 min-h-4 w-4 min-w-4 fill-gray-600"
+                                                >
+                                                    <path d="M23,19V17A11.01,11.01,0,0,0,13,6.051V4.723a2,2,0,1,0-2,0V6.051A11.01,11.01,0,0,0,1,17v2a1,1,0,0,0,0,2H23A1,1,0,0,0,23,19ZM3,17C3.473,5.066,20.531,5.075,21,17v2H3Z"></path>
+                                                </svg>
+                                            </div>
+                                            <span className="w-full">
+                                                Recipes
+                                            </span>
+                                        </Link>
+                                    </li>
+                                    <li className="w-full">
+                                        <Link
+                                            href={'/settings'}
+                                            className="flex w-full cursor-pointer items-center justify-center gap-6 rounded-xl px-4 py-2 hover:bg-gray-200"
+                                        >
+                                            <div className="flex h-5 w-5 min-w-5 items-center justify-center">
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    id="Outline"
+                                                    viewBox="0 0 24 24"
+                                                    className="h-4 min-h-4 w-4 min-w-4 fill-gray-600"
+                                                >
+                                                    <path d="M12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z" />
+                                                    <path d="M21.294,13.9l-.444-.256a9.1,9.1,0,0,0,0-3.29l.444-.256a3,3,0,1,0-3-5.2l-.445.257A8.977,8.977,0,0,0,15,3.513V3A3,3,0,0,0,9,3v.513A8.977,8.977,0,0,0,6.152,5.159L5.705,4.9a3,3,0,0,0-3,5.2l.444.256a9.1,9.1,0,0,0,0,3.29l-.444.256a3,3,0,1,0,3,5.2l.445-.257A8.977,8.977,0,0,0,9,20.487V21a3,3,0,0,0,6,0v-.513a8.977,8.977,0,0,0,2.848-1.646l.447.258a3,3,0,0,0,3-5.2Zm-2.548-3.776a7.048,7.048,0,0,1,0,3.75,1,1,0,0,0,.464,1.133l1.084.626a1,1,0,0,1-1,1.733l-1.086-.628a1,1,0,0,0-1.215.165,6.984,6.984,0,0,1-3.243,1.875,1,1,0,0,0-.751.969V21a1,1,0,0,1-2,0V19.748a1,1,0,0,0-.751-.969A6.984,6.984,0,0,1,7.006,16.9a1,1,0,0,0-1.215-.165l-1.084.627a1,1,0,1,1-1-1.732l1.084-.626a1,1,0,0,0,.464-1.133,7.048,7.048,0,0,1,0-3.75A1,1,0,0,0,4.79,8.992L3.706,8.366a1,1,0,0,1,1-1.733l1.086.628A1,1,0,0,0,7.006,7.1a6.984,6.984,0,0,1,3.243-1.875A1,1,0,0,0,11,4.252V3a1,1,0,0,1,2,0V4.252a1,1,0,0,0,.751.969A6.984,6.984,0,0,1,16.994,7.1a1,1,0,0,0,1.215.165l1.084-.627a1,1,0,1,1,1,1.732l-1.084.626A1,1,0,0,0,18.746,10.125Z" />
+                                                </svg>
+                                            </div>
+                                            <span className="w-full">
+                                                Settings
+                                            </span>
+                                        </Link>
+                                    </li>
+                                    <li className="w-full">
+                                        <div className="flex w-full cursor-pointer items-center justify-center gap-6 rounded-xl px-4 py-2 hover:bg-gray-200">
+                                            <div className="flex h-5 w-5 min-w-5 items-center justify-center">
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24"
+                                                    className="h-4 min-h-4 w-4 min-w-4 fill-gray-600"
+                                                >
+                                                    <path d="M11.476,15a1,1,0,0,0-1,1v3a3,3,0,0,1-3,3H5a3,3,0,0,1-3-3V5A3,3,0,0,1,5,2H7.476a3,3,0,0,1,3,3V8a1,1,0,0,0,2,0V5a5.006,5.006,0,0,0-5-5H5A5.006,5.006,0,0,0,0,5V19a5.006,5.006,0,0,0,5,5H7.476a5.006,5.006,0,0,0,5-5V16A1,1,0,0,0,11.476,15Z" />
+                                                    <path d="M22.867,9.879,18.281,5.293a1,1,0,1,0-1.414,1.414l4.262,4.263L6,11a1,1,0,0,0,0,2H6l15.188-.031-4.323,4.324a1,1,0,1,0,1.414,1.414l4.586-4.586A3,3,0,0,0,22.867,9.879Z" />
+                                                </svg>
+                                            </div>
+                                            <span className="w-full">
+                                                Logout
+                                            </span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </nav>
-            <div className="flex justify-between border-b border-gray-300 px-8 sm:px-52">
+            <div
+                className={`${
+                    labels ? 'flex' : 'hidden'
+                } justify-between border-b border-gray-300 px-8 sm:px-52`}
+            >
                 <div className="flex w-full items-center justify-between">
                     <ul className="flex">
                         <li
