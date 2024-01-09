@@ -1,22 +1,36 @@
 'use client';
 
-import { SESSION_TOKEN } from '@/constants';
 import { useOutsideClick } from '@/hooks';
-import { serialize } from 'cookie';
-import { sign } from 'jsonwebtoken';
+import { getUsers } from '@/services/getUsers';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 interface NavbarInterface {
     labels?: boolean;
 }
+
 
 export default function Navbar({ labels = true }: NavbarInterface) {
     const router = useRouter();
     const [open, setOpen] = React.useState(false);
 
     const userRef = useOutsideClick(() => setOpen(false));
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const response = await fetch('/api/auth/me', {
+                    method: 'GET',
+                });
+
+                console.log(response);
+            } catch (error) {
+
+            }
+        })();
+    }, [])
+
 
     const logout = async () => {
         try {
@@ -218,9 +232,8 @@ export default function Navbar({ labels = true }: NavbarInterface) {
                 </div>
             </nav>
             <div
-                className={`${
-                    labels ? 'flex' : 'hidden'
-                } justify-between border-b border-gray-300 px-8 sm:px-52`}
+                className={`${labels ? 'flex' : 'hidden'
+                    } justify-between border-b border-gray-300 px-8 sm:px-52`}
             >
                 <div className="flex w-full items-center justify-between">
                     <ul className="flex">

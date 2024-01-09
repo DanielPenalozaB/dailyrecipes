@@ -5,13 +5,39 @@ import { COUNTRIES, LANGUAGES } from '@/data';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Account() {
     const crumb = usePathname().split('/').pop();
 
     const [langMenu, setLangMenu] = useState(false);
     const [counMenu, setCounMenu] = useState(false);
+
+
+    useEffect(() => {
+        const setDropdownHeightDynamically = () => {
+            const selectElement = document.getElementById('dropdown');
+            if (selectElement) {
+                const rect = selectElement.getBoundingClientRect();
+                const screenHeight = window.innerHeight;
+
+                const maxHeight = Math.abs(screenHeight - rect.bottom);
+
+                selectElement.style.maxHeight = `${maxHeight}px`;
+            }
+        };
+
+        // Initial height calculation
+        setDropdownHeightDynamically();
+
+        // Event listeners for dynamic height updates
+        window.addEventListener('resize', setDropdownHeightDynamically);
+
+        // Cleanup the event listeners on component unmount
+        return () => {
+            window.removeEventListener('resize', setDropdownHeightDynamically);
+        };
+    }, []);
 
     return (
         <>
@@ -22,11 +48,10 @@ export default function Account() {
                         <li>
                             <Link
                                 href={'/account'}
-                                className={`flex items-center gap-3 ease-out duration-200 ${
-                                    crumb === 'account'
-                                        ? 'text-rose-500'
-                                        : 'text-gray-800 hover:text-rose-500'
-                                }`}
+                                className={`flex items-center gap-3 ease-out duration-200 ${crumb === 'account'
+                                    ? 'text-rose-500'
+                                    : 'text-gray-800 hover:text-rose-500'
+                                    }`}
                             >
                                 <div className="flex h-6 w-6 items-center justify-center">
                                     <svg
@@ -51,11 +76,10 @@ export default function Account() {
                         <li>
                             <Link
                                 href={'/security'}
-                                className={`flex items-center gap-3 ease-out duration-200 ${
-                                    crumb === 'security'
-                                        ? 'text-rose-500'
-                                        : 'text-gray-800 hover:text-rose-500'
-                                }`}
+                                className={`flex items-center gap-3 ease-out duration-200 ${crumb === 'security'
+                                    ? 'text-rose-500'
+                                    : 'text-gray-800 hover:text-rose-500'
+                                    }`}
                             >
                                 <div className="justi flex h-6 w-6 items-center">
                                     <svg
@@ -80,11 +104,10 @@ export default function Account() {
                         <li>
                             <Link
                                 href={'/notifications'}
-                                className={`flex items-center gap-3 ease-out duration-200 ${
-                                    crumb === 'notifications'
-                                        ? 'text-rose-500'
-                                        : 'text-gray-800 hover:text-rose-500'
-                                }`}
+                                className={`flex items-center gap-3 ease-out duration-200 ${crumb === 'notifications'
+                                    ? 'text-rose-500'
+                                    : 'text-gray-800 hover:text-rose-500'
+                                    }`}
                             >
                                 <div className="flex h-6 w-6 items-center justify-center">
                                     <svg
@@ -109,11 +132,10 @@ export default function Account() {
                         <li>
                             <Link
                                 href={'/recipes'}
-                                className={`flex items-center gap-3 ease-out duration-200 ${
-                                    crumb === 'recipes'
-                                        ? 'text-rose-500'
-                                        : 'text-gray-800 hover:text-rose-500'
-                                }`}
+                                className={`flex items-center gap-3 ease-out duration-200 ${crumb === 'recipes'
+                                    ? 'text-rose-500'
+                                    : 'text-gray-800 hover:text-rose-500'
+                                    }`}
                             >
                                 <div className="flex h-6 w-6 items-center justify-center">
                                     <svg
@@ -224,7 +246,7 @@ export default function Account() {
                                     </button>
                                     {langMenu && (
                                         <div className="absolute left-[calc(100%+1rem)] top-0">
-                                            <ul className="flex flex-col gap-1 rounded-xl border border-gray-300 bg-white p-2 shadow-xl">
+                                            <ul style={{ maxHeight: "-214px" }} className="flex flex-col gap-1 rounded-xl border border-gray-300 bg-white p-2 shadow-xl">
                                                 {LANGUAGES.map((lang) => (
                                                     <li
                                                         key={lang.abbr}
@@ -240,12 +262,11 @@ export default function Account() {
                                                             className="h-6 min-h-6 w-6 min-w-6 overflow-hidden rounded-full"
                                                         />
                                                         <span
-                                                            className={`${
-                                                                lang.abbr ===
+                                                            className={`${lang.abbr ===
                                                                 'en'
-                                                                    ? 'text-rose-500'
-                                                                    : ''
-                                                            }`}
+                                                                ? 'text-rose-500'
+                                                                : ''
+                                                                }`}
                                                         >
                                                             {lang.label}
                                                         </span>
@@ -301,35 +322,33 @@ export default function Account() {
                                         />
                                         <span>United States</span>
                                     </button>
-                                    {counMenu && (
-                                        <div className="absolute left-[calc(100%+1rem)] top-0">
-                                            <ul className="flex flex-col gap-1 rounded-xl border border-gray-300 bg-white p-2 shadow-xl">
-                                                {COUNTRIES.map((country) => (
-                                                    <li
-                                                        key={country.abbr}
-                                                        title={`Choose ${country.label}`}
-                                                        className="flex cursor-pointer items-center gap-4 rounded-md p-2 text-gray-700 hover:text-rose-500"
-                                                    >
-                                                        <Image
-                                                            src={`/images/languages/${country.image}.png`}
-                                                            alt="usa"
-                                                            width={24}
-                                                            height={24}
-                                                            loading="lazy"
-                                                            className="h-6 min-h-6 w-6 min-w-6 overflow-hidden rounded-full"
-                                                        />
-                                                        <span
-                                                            className={`whitespace-nowrap ${
-                                                                country.abbr ===
-                                                                'us'
-                                                                    ? 'text-rose-500'
-                                                                    : ''
+                                    <div className={`${counMenu ? 'block' : 'hidden'} absolute left-[calc(100%+1rem)] top-0 overflow-auto rounded-xl border border-gray-300 bg-white p-2 shadow-xl`}>
+                                        <ul id='dropdown'  className="flex flex-col gap-1">
+                                            {COUNTRIES.map((country) => (
+                                                <li
+                                                    key={country.abbr}
+                                                    title={`Choose ${country.label}`}
+                                                    className="flex cursor-pointer items-center gap-4 rounded-md p-2 text-gray-700 hover:text-rose-500"
+                                                >
+                                                    <Image
+                                                        src={`/images/languages/${country.image}.png`}
+                                                        alt="usa"
+                                                        width={24}
+                                                        height={24}
+                                                        loading="lazy"
+                                                        className="h-6 min-h-6 w-6 min-w-6 overflow-hidden rounded-full"
+                                                    />
+                                                    <span
+                                                        className={`whitespace-nowrap ${country.abbr ===
+                                                            'us'
+                                                            ? 'text-rose-500'
+                                                            : ''
                                                             }`}
-                                                        >
-                                                            {country.label}
-                                                        </span>
-                                                        {country.abbr ===
-                                                            'us' && (
+                                                    >
+                                                        {country.label}
+                                                    </span>
+                                                    {country.abbr ===
+                                                        'us' && (
                                                             <svg
                                                                 xmlns="http://www.w3.org/2000/svg"
                                                                 fill="none"
@@ -347,11 +366,10 @@ export default function Account() {
                                                                 />
                                                             </svg>
                                                         )}
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    )}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>

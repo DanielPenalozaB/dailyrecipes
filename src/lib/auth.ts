@@ -1,6 +1,7 @@
 import { jwtVerify } from 'jose';
 
 interface UserJWTPayload {
+    email?: string;
     jti: string;
     iat: number;
 }

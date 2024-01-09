@@ -2,7 +2,7 @@
 
 import { User } from '@/interfaces';
 
-export async function getUser(id: string): Promise<User | string> {
+export async function getUsers(): Promise<User[] | string> {
     const PAYLOAD = {
         method: 'get',
         headers: {
@@ -11,7 +11,7 @@ export async function getUser(id: string): Promise<User | string> {
     };
 
     try {
-        const response = await fetch(`/api/users/${id}`, PAYLOAD);
+        const response = await fetch('http://localhost:3000/api/users/', PAYLOAD);
 
         if (!response.ok) {
             const error = await response.json();
