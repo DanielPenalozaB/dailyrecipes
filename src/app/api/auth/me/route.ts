@@ -17,9 +17,26 @@ export async function GET(request: NextRequest) {
                     where: {
                         email: verified.email,
                     },
+                    select: {
+                        id: true,
+                        username: true,
+                        email: true,
+                        country: true,
+                        emailConfirmed: true,
+                        image: true,
+                        isAdmin: true,
+                        preferredLanguage: true,
+                    },
                 });
 
-                console.log(user);
+                if (user) {
+                    return NextResponse.json(user);
+                } else {
+                    return NextResponse.json(
+                        { message: 'User not found' },
+                        { status: 404 }
+                    );
+                }
             } catch (error) {
                 return NextResponse.json(
                     { message: 'There was an error' },

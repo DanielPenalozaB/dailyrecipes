@@ -1,4 +1,4 @@
-import { SESSION_TOKEN } from '@/constants';
+import { LAST_SESSION_DATA, SESSION_TOKEN } from '@/constants';
 import { serialize } from 'cookie';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -6,9 +6,9 @@ export async function POST(request: NextRequest) {
     const cookie = request.cookies.get(SESSION_TOKEN);
 
     if (cookie) {
-        const token = '';
+        const headers = new Headers();
 
-        const serialized = serialize(SESSION_TOKEN, token, {
+        const serialized = serialize(SESSION_TOKEN, '', {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             maxAge: -1,
@@ -16,6 +16,18 @@ export async function POST(request: NextRequest) {
             sameSite: 'strict',
             path: '/',
         });
+
+        const serializedUser = serialize(LAST_SESSION_DATA, '', {
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: -1,
+            expires: new Date(0),
+            sameSite: 'strict',
+            path: '/',
+        });
+
+        headers.set('Set-Cookie', serialized);
+
+        headers.append('Set-Cookie', serializedUser);
 
         return NextResponse.json(
             {

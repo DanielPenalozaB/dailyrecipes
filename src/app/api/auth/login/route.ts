@@ -1,4 +1,4 @@
-import { SESSION_TOKEN } from '@/constants';
+import { SESSION_TOKEN, LAST_SESSION_DATA } from '@/constants';
 import { PrismaClient } from '@prisma/client';
 import { serialize } from 'cookie';
 import { sign } from 'jsonwebtoken';
@@ -17,6 +17,9 @@ export async function POST(request: Request) {
                 where: {
                     email: body.email,
                 },
+                include: {
+                    country: true,
+                },
             });
 
             if (findUser) {
@@ -31,6 +34,8 @@ export async function POST(request: Request) {
                         }
                     );
                 } else {
+                    const headers = new Headers();
+
                     const secret = process.env.JWT_SECRET || '';
 
                     const token = sign(
@@ -51,6 +56,29 @@ export async function POST(request: Request) {
                         path: '/',
                     });
 
+                    const USER_SESSION = {
+                        username: findUser.username,
+                        email: findUser.email,
+                        image: findUser.image,
+                        preferredLanguage: findUser.preferredLanguage,
+                        country: findUser.country.name,
+                    };
+
+                    const serializedUser = serialize(
+                        LAST_SESSION_DATA,
+                        JSON.stringify(USER_SESSION),
+                        {
+                            secure: process.env.NODE_ENV === 'production',
+                            maxAge: MAX_AGE,
+                            sameSite: 'strict',
+                            path: '/',
+                        }
+                    );
+
+                    headers.set('Set-Cookie', serialized);
+
+                    headers.append('Set-Cookie', serializedUser);
+
                     return NextResponse.json(
                         {
                             status: 'success',
@@ -58,9 +86,7 @@ export async function POST(request: Request) {
                         },
                         {
                             status: 200,
-                            headers: {
-                                'Set-Cookie': serialized,
-                            },
+                            headers,
                         }
                     );
                 }
