@@ -9,3 +9,11 @@ export interface User {
     preferredLanguage: string;
     otp: string;
 }
+
+export interface UserSessionInterface {
+    username: string;
+    email: string;
+    image: null;
+    preferredLanguage: string;
+    country: string;
+}

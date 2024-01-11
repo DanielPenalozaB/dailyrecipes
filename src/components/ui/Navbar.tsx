@@ -2,11 +2,11 @@
 
 import { LAST_SESSION_DATA } from '@/constants';
 import { useOutsideClick } from '@/hooks';
+import { UserSessionInterface } from '@/interfaces';
 import { getCookie } from '@/utils';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
-import toast from 'react-hot-toast';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 interface NavbarInterface {
     labels?: boolean;
@@ -14,8 +14,12 @@ interface NavbarInterface {
 
 export default function Navbar({ labels = true }: NavbarInterface) {
     const router = useRouter();
-    const [open, setOpen] = React.useState(false);
-    const [loggedIn, setLoggedIn] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [user, setUser] = useState<UserSessionInterface | undefined>(
+        undefined
+    );
+    const pathname = usePathname();
 
     const userRef = useOutsideClick(() => setOpen(false));
 
@@ -23,8 +27,11 @@ export default function Navbar({ labels = true }: NavbarInterface) {
         (async () => {
             const cookie = getCookie(LAST_SESSION_DATA);
 
+            console.log(cookie);
+
             if (cookie) {
                 setLoggedIn(true);
+                setUser(JSON.parse(cookie));
             }
         })();
     }, [router]);
@@ -38,7 +45,11 @@ export default function Navbar({ labels = true }: NavbarInterface) {
             const { status } = await response.json();
 
             if (status === 'success') {
-                router.push('/');
+                if (pathname === '/') {
+                    router.push('/auth');
+                } else {
+                    router.push('/');
+                }
             }
         } catch (error) {
             console.log(error);
@@ -130,11 +141,31 @@ export default function Navbar({ labels = true }: NavbarInterface) {
                         {open && (
                             <div
                                 ref={userRef}
-                                className="absolute right-0 top-[calc(100%+.5rem)] flex min-w-48 flex-col gap-1 rounded-2xl border border-gray-200 bg-white p-2 text-gray-600 shadow-xl"
+                                className="absolute right-0 top-[calc(100%+.5rem)] flex min-w-48 max-w-52 flex-col gap-1 rounded-2xl border border-gray-200 bg-white p-2 text-gray-600 shadow-xl"
                             >
                                 <ul>
-                                    {loggedIn ? (
+                                    {loggedIn && user ? (
                                         <>
+                                            <li className="relative z-0 w-full overflow-hidden rounded-xl bg-rose-100">
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    id="Layer_1"
+                                                    data-name="Layer 1"
+                                                    viewBox="0 0 24 24"
+                                                    className="absolute -left-2 top-2 z-0 h-20 w-20 fill-rose-300/50"
+                                                >
+                                                    <path d="m23.199,11.599c-.761-1.016-1.927-1.599-3.197-1.599h-7.997v-2.993h10.995c.552,0,1-.447,1-1s-.448-1-1-1h-10.995v-1.421l10.983-.58c.552-.029.975-.5.946-1.052s-.497-.968-1.051-.946L3.946,2.008c-.552.029-.975.5-.946,1.052.028.533.47.947.998.947.018,0,.036,0,.054,0l.954-.05v1.051h-1.007c-.552,0-1,.447-1,1s.448,1,1,1h1.007v2.993h-.999c-1.27,0-2.435.582-3.196,1.598C.042,12.622-.191,13.917.168,15.149c.708,2.421,1.989,4.605,3.708,6.317,1.617,1.609,3.901,2.533,6.268,2.533h3.722c2.366,0,4.65-.924,6.268-2.534,1.719-1.711,3-3.896,3.707-6.316.36-1.232.126-2.526-.642-3.551ZM7.005,3.85l3-.158v1.315h-3v-1.157Zm0,3.157h3v2.993h-3v-2.993Zm14.915,7.582c-.604,2.068-1.74,4.007-3.198,5.46-1.246,1.24-3.016,1.951-4.857,1.951h-3.722c-1.841,0-3.611-.711-4.856-1.95-1.458-1.453-2.595-3.393-3.199-5.461-.182-.622-.064-1.275.322-1.791.38-.507.962-.798,1.596-.798h15.995c.634,0,1.216.291,1.597.798.386.516.504,1.168.322,1.791Z" />
+                                                </svg>
+                                                <span className="relative z-10 flex w-full items-center justify-end gap-6 px-4 pt-2 font-medium text-rose-600">
+                                                    {user.username}
+                                                </span>
+                                                <span className="relative z-10 flex w-full items-center justify-end gap-6 px-4 pb-2 text-sm text-rose-400">
+                                                    {user.preferredLanguage}
+                                                </span>
+                                            </li>
+                                            <li className='border-gray-300 py-2'>
+                                                <hr />
+                                            </li>
                                             <li className="w-full">
                                                 <Link
                                                     href={'/account'}
@@ -228,21 +259,23 @@ export default function Navbar({ labels = true }: NavbarInterface) {
                                     ) : (
                                         <li className="w-full">
                                             <div
-                                                onClick={logout}
+                                                onClick={() =>
+                                                    router.push('/auth')
+                                                }
                                                 className="flex w-full cursor-pointer items-center justify-center gap-6 rounded-xl px-4 py-2 hover:bg-gray-200"
                                             >
                                                 <div className="flex h-5 w-5 min-w-5 items-center justify-center">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         viewBox="0 0 24 24"
-                                                        className="h-4 min-h-4 w-4 min-w-4 fill-gray-600"
+                                                        className="h-4 min-h-4 w-4 min-w-4 rotate-180 fill-gray-600"
                                                     >
                                                         <path d="M11.476,15a1,1,0,0,0-1,1v3a3,3,0,0,1-3,3H5a3,3,0,0,1-3-3V5A3,3,0,0,1,5,2H7.476a3,3,0,0,1,3,3V8a1,1,0,0,0,2,0V5a5.006,5.006,0,0,0-5-5H5A5.006,5.006,0,0,0,0,5V19a5.006,5.006,0,0,0,5,5H7.476a5.006,5.006,0,0,0,5-5V16A1,1,0,0,0,11.476,15Z" />
                                                         <path d="M22.867,9.879,18.281,5.293a1,1,0,1,0-1.414,1.414l4.262,4.263L6,11a1,1,0,0,0,0,2H6l15.188-.031-4.323,4.324a1,1,0,1,0,1.414,1.414l4.586-4.586A3,3,0,0,0,22.867,9.879Z" />
                                                     </svg>
                                                 </div>
                                                 <span className="w-full">
-                                                    Logout
+                                                    Login
                                                 </span>
                                             </div>
                                         </li>
@@ -254,8 +287,9 @@ export default function Navbar({ labels = true }: NavbarInterface) {
                 </div>
             </nav>
             <div
-                className={`${labels ? 'flex' : 'hidden'
-                    } justify-between border-b border-gray-300 px-8 sm:px-52`}
+                className={`${
+                    labels ? 'flex' : 'hidden'
+                } justify-between border-b border-gray-300 px-8 sm:px-52`}
             >
                 <div className="flex w-full items-center justify-between">
                     <ul className="flex">

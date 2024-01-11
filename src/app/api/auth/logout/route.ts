@@ -36,9 +36,7 @@ export async function POST(request: NextRequest) {
             },
             {
                 status: 200,
-                headers: {
-                    'Set-Cookie': serialized,
-                },
+                headers,
             }
         );
     } else {
