@@ -10,7 +10,7 @@ export async function middleware(request: NextRequest) {
 
     if (request.nextUrl.pathname.startsWith('/auth') && !verifiedToken) return;
 
-    if (request.nextUrl.pathname === '/auth' && verifiedToken) {
+    if (request.nextUrl.pathname.startsWith('/auth') && verifiedToken) {
         return NextResponse.redirect(new URL('/', request.url));
     }
 
