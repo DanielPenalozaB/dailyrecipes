@@ -1,4 +1,4 @@
-import { GoogleTagManager } from '@next/third-parties/dist/google';
+import { GoogleTagManager } from '@next/third-parties/google';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { Toaster } from 'react-hot-toast';
