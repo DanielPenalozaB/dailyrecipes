@@ -11,7 +11,7 @@ export async function getUser(id: string): Promise<User | string> {
     };
 
     try {
-        const response = await fetch(`/api/users/${id}`, PAYLOAD);
+        const response = await fetch(`http://localhost:3000/api/users/${id}`, PAYLOAD);
 
         if (!response.ok) {
             const error = await response.json();

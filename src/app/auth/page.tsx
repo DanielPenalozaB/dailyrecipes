@@ -80,21 +80,71 @@ export default function Auth() {
         setDisabled(true);
         setError(null);
 
-        try {
-            console.log(email, password, name);
-            /*await axios.post('/api/user/register/', {
-                email,
-                name,
-                password,
-            });*/
+        if (email && password && confirmPassword && name) {
+            if (password === confirmPassword) {
+                try {
+                    const PAYLOAD = {
+                        method: 'post',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            countryId: '8f43a09f-b0c8-485f-bc1f-fb2de94268ef',
+                            username: name,
+                            email,
+                            password,
+                            preferredLanguage: 'es-CO',
+                        }),
+                    };
 
-            login();
-        } catch (error) {
-            console.log(error);
+                    const response = await fetch('/api/auth/register', PAYLOAD);
+
+                    const { message } = await response.json();
+
+                    console.log(message);
+
+                    switch (message) {
+                        case 'User created successfully.':
+                            toast.success('Registrado.');
+                            break;
+
+                        case 'There was an error sending the email.':
+                            setError('Ocurrio un error al enviar el email.');
+                            break;
+
+                        case 'Email is already registered.':
+                            setError('El email ya se encuentra registrado.');
+                            break;
+
+                        case 'Country not found.':
+                            setError('Pais no encontrado.');
+                            break;
+
+                        case 'Invalid request. Please provide valid data.':
+                            setError(
+                                'Ocurrió un error con el formato de los datos.'
+                            );
+                            break;
+
+                        case 'Internal server error. Please try again later.':
+                            setError('Ocurrió un error con el servidor.');
+                            break;
+
+                        default:
+                            break;
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            } else {
+                setError('Las contraseñas no coinciden.');
+            }
+        } else {
+            setError('Todos los campos son obligatorios.');
         }
 
         setDisabled(false);
-    }, [email, name, password, login]);
+    }, [email, name, password, confirmPassword, router, login]);
 
     return (
         <div className="flex h-screen w-full items-center justify-center">
@@ -227,6 +277,30 @@ export default function Auth() {
                                         </div>
                                         <div className="flex flex-col gap-2">
                                             <label
+                                                htmlFor={'signup-name'}
+                                                className="block text-sm font-medium leading-6 text-gray-700"
+                                            >
+                                                Name
+                                            </label>
+                                            <div>
+                                                <input
+                                                    type="text"
+                                                    name="signup-name"
+                                                    id="signup-name"
+                                                    value={name}
+                                                    onChange={(
+                                                        e: React.ChangeEvent<HTMLInputElement>
+                                                    ) =>
+                                                        setName(e.target.value)
+                                                    }
+                                                    placeholder="Enter your name"
+                                                    autoComplete="name"
+                                                    className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm outline-none ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-rose-600 sm:text-sm sm:leading-6"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col gap-2">
+                                            <label
                                                 htmlFor={'new-password'}
                                                 className="block text-sm font-medium leading-6 text-gray-700"
                                             >
@@ -263,11 +337,11 @@ export default function Auth() {
                                                     type="password"
                                                     name="repeat-password"
                                                     id="repeat-password"
-                                                    value={password}
+                                                    value={confirmPassword}
                                                     onChange={(
                                                         e: React.ChangeEvent<HTMLInputElement>
                                                     ) =>
-                                                        setPassword(
+                                                        setConfirmPassword(
                                                             e.target.value
                                                         )
                                                     }
