@@ -1,3 +1,4 @@
+import { GoogleTagManager } from '@next/third-parties/dist/google';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { Toaster } from 'react-hot-toast';
@@ -44,6 +45,7 @@ export default function RootLayout({
             <body className={inter.className}>
                 {children}
                 <Toaster position="bottom-right" />
+                <GoogleTagManager gtmId="GTM-KGFCWLRB" />
             </body>
         </html>
     );
