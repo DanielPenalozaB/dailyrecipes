@@ -5,6 +5,7 @@ import { getUser, validateOTP } from '@/services';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 export default function Verify() {
     const pathname = usePathname();
@@ -63,12 +64,75 @@ export default function Verify() {
 
     const validateUserOTP = async () => {
         const OTP = otp.join('');
-        console.log(OTP);
 
-        const response = await validateOTP({
+        const body = {
             id,
             otp: OTP,
-        });
+        };
+
+        try {
+            const response = await fetch('/api/users/validateOTP', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(body),
+            });
+
+            if (response.ok) {
+                const { message } = await response.json();
+
+                switch (message) {
+                    case 'Email verification failed.':
+                        toast.error(
+                            'Error al verificar el correo electrónico.'
+                        );
+                        break;
+
+                    case 'Email verified successfully.': {
+                        toast.success(
+                            'Correo electrónico verificado correctamente.'
+                        );
+                        router.push('/auth');
+                        break;
+                    }
+
+                    case 'Invalid OTP.': {
+                        toast.error('Código de verificación inválido.');
+                        break;
+                    }
+
+                    case 'Email already verified.': {
+                        toast.error('Correo electrónico ya verificado.');
+                        break;
+                    }
+
+                    case 'User not found.': {
+                        toast.error('Usuario no encontrado.');
+                        break;
+                    }
+
+                    case 'Invalid request. Please provide valid data.': {
+                        toast.error(
+                            'Solicitud inválida. Por favor, proporcione datos válidos.'
+                        );
+                        break;
+                    }
+
+                    case 'Internal server error. Please try again later.': {
+                        toast.error(
+                            'Error del servidor. Por favor, inténtelo de nuevo más tarde.'
+                        );
+                        break;
+                    }
+
+                    default:
+                        break;
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const login = async () => router.push('/auth');

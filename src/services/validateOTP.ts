@@ -1,14 +1,15 @@
 export async function validateOTP({ id, otp }: { id: string; otp: string }) {
     const PAYLOAD = {
-        method: 'get',
+        method: 'post',
         headers: {
             'Content-Type': 'application/json',
         },
+        body: JSON.stringify({ id, otp }),
     };
 
     try {
         const response = await fetch(
-            `http://localhost:3000/api/users/${id}`,
+            "http://localhost:3000/api/users/validateOTP",
             PAYLOAD
         );
 
