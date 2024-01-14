@@ -202,10 +202,10 @@ export default function Recipe({ params }: { params: { id: string } }) {
                                                                 type="text"
                                                                 name="copy-url"
                                                                 id="copy-url"
-                                                                placeholder="recipes.juanpenaloza.com/recipes"
+                                                                placeholder="recipes.danielpenalozab.com/recipes"
                                                                 readOnly
                                                                 defaultValue={URL.replaceAll(
-                                                                    'recipes.juanpenaloza.com/recipes',
+                                                                    'recipes.danielpenalozab.com/recipes',
                                                                     '...'
                                                                 )}
                                                                 className={`block w-full rounded-l-md border-0 px-2 py-1.5 text-gray-900 shadow-sm outline-none ring-1 ring-inset ${

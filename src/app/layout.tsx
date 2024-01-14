@@ -33,7 +33,7 @@ export default function RootLayout({
                 <meta property="og:image" content="/dailyrecipes.svg" />
                 <meta
                     property="og:url"
-                    content="https://dailyrecipes.juanpenaloza.com/"
+                    content="https://dailyrecipes.danielpenalozab.com/"
                 />
                 <meta property="og:type" content="website" />
             </head>
