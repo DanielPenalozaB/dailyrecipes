@@ -12,9 +12,9 @@ export default function RecipeCard({ data }: { data: Recipe }) {
         <Link
             href={`/recipes/${data.url}`}
             title={data.title}
-            className="flex max-w-[290px] cursor-pointer flex-col gap-4 overflow-hidden rounded-2xl border border-white bg-white p-4 duration-300 hover:border-gray-200"
+            className="flex w-full max-w-full cursor-pointer flex-col gap-4 overflow-hidden rounded-2xl border border-white bg-white p-4 duration-300 hover:border-gray-200 sm:max-w-[290px]"
         >
-            <div className="h-48 w-64 overflow-hidden rounded-lg">
+            <div className="h-48 w-full overflow-hidden rounded-lg sm:w-64">
                 <Image
                     src={data.thumbnail}
                     alt={data.title}
