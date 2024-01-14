@@ -36,10 +36,14 @@ export default function RootLayout({
                     content="https://dailyrecipes.danielpenalozab.com/"
                 />
                 <meta property="og:type" content="website" />
+                <meta
+                    name="google-site-verification"
+                    content="K5qumX_Dmh9WT6gGFFqYkFPZLK320ja5X6NqQsxuCas"
+                />
             </head>
             <body className={inter.className}>
                 {children}
-                <Toaster position='bottom-right' />
+                <Toaster position="bottom-right" />
             </body>
         </html>
     );
