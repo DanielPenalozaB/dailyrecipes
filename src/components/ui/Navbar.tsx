@@ -141,7 +141,7 @@ export default function Navbar({ labels = true }: NavbarInterface) {
                         {open && (
                             <div
                                 ref={userRef}
-                                className="absolute right-0 top-[calc(100%+.5rem)] flex min-w-48 max-w-44 flex-col gap-1 rounded-2xl border border-gray-200 bg-white p-2 text-gray-600 shadow-xl"
+                                className="absolute right-0 top-[calc(100%+.5rem)] z-10 flex min-w-48 max-w-44 flex-col gap-1 rounded-2xl border border-gray-200 bg-white p-2 text-gray-600 shadow-xl"
                             >
                                 <ul>
                                     {loggedIn && user ? (
