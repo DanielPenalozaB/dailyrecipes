@@ -8,7 +8,13 @@ import { getCookie } from '@/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState, useEffect, useRef, ChangeEvent } from 'react';
+import {
+    useState,
+    useEffect,
+    useRef,
+    ChangeEvent,
+    useLayoutEffect,
+} from 'react';
 import toast from 'react-hot-toast';
 
 const ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png'];
@@ -35,16 +41,31 @@ export default function Account() {
         })();
     }, []);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const setDropdownHeightDynamically = () => {
             const selectElement = document.getElementById('dropdown');
+
             if (selectElement) {
                 const rect = selectElement.getBoundingClientRect();
+
                 const screenHeight = window.innerHeight;
 
-                const maxHeight = Math.abs(screenHeight - rect.bottom);
+                if (
+                    rect.top > 0 &&
+                    !selectElement.className.includes('hidden')
+                ) {
+                    const maxHeight = Number(
+                        Math.abs(screenHeight - (rect.top + 16)).toFixed(0)
+                    );
 
-                selectElement.style.maxHeight = `${maxHeight}px`;
+                    if (maxHeight > 200) {
+                        selectElement.style.cssText = `max-height: ${maxHeight}px;`;
+                    } else {
+                        selectElement.style.cssText = `max-height: 250px;top: auto;bottom: 0;`;
+                    }
+                } else {
+                    selectElement.style.cssText = ``;
+                }
             }
         };
 
@@ -58,7 +79,7 @@ export default function Account() {
         return () => {
             window.removeEventListener('resize', setDropdownHeightDynamically);
         };
-    }, []);
+    }, [counMenu]);
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files && e.target.files[0];
@@ -390,14 +411,12 @@ export default function Account() {
                                         <span>United States</span>
                                     </button>
                                     <div
+                                        id="dropdown"
                                         className={`${
                                             counMenu ? 'block' : 'hidden'
                                         } absolute left-[calc(100%+1rem)] top-0 overflow-auto rounded-xl border border-gray-300 bg-white p-2 shadow-xl`}
                                     >
-                                        <ul
-                                            id="dropdown"
-                                            className="flex flex-col gap-1"
-                                        >
+                                        <ul className="flex flex-col gap-1">
                                             {COUNTRIES.map((country) => (
                                                 <li
                                                     key={country.abbr}
