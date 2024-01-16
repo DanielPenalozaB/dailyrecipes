@@ -1,17 +1,35 @@
 'use client';
 
-import { Navbar } from '@/components';
-import { COUNTRIES, LANGUAGES } from '@/data';
-import Image from 'next/image';
+import { Navbar, RecipeCard } from '@/components';
+import { Recipe } from '@/interfaces';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-export default function Notifications() {
+export default function Recipes() {
     const crumb = usePathname().split('/').pop();
 
-    const [langMenu, setLangMenu] = useState(false);
-    const [counMenu, setCounMenu] = useState(false);
+    const [recipes, setRecipes] = useState<Recipe[] | string>([]);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const response = await fetch('/api/recipes');
+
+                const data = await response.json();
+
+                console.log(data);
+
+                if (data.length > 0) {
+                    setRecipes(data);
+                } else {
+                    setRecipes('THERE_ARE_NO_RECIPES');
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        })();
+    }, []);
 
     return (
         <>
@@ -21,9 +39,9 @@ export default function Notifications() {
                     <ul className="flex flex-col gap-4 p-4 text-sm">
                         <li>
                             <Link
-                                href={'/account'}
+                                href={'/me'}
                                 className={`flex items-center gap-3 ease-out duration-200 ${
-                                    crumb === 'account'
+                                    crumb === 'me'
                                         ? 'text-rose-500'
                                         : 'text-gray-800 hover:text-rose-500'
                                 }`}
@@ -50,7 +68,7 @@ export default function Notifications() {
                         </li>
                         <li>
                             <Link
-                                href={'/security'}
+                                href={'/me/security'}
                                 className={`flex items-center gap-3 ease-out duration-200 ${
                                     crumb === 'security'
                                         ? 'text-rose-500'
@@ -79,7 +97,7 @@ export default function Notifications() {
                         </li>
                         <li>
                             <Link
-                                href={'/notifications'}
+                                href={'/me/notifications'}
                                 className={`flex items-center gap-3 ease-out duration-200 ${
                                     crumb === 'notifications'
                                         ? 'text-rose-500'
@@ -108,7 +126,7 @@ export default function Notifications() {
                         </li>
                         <li>
                             <Link
-                                href={'/recipes'}
+                                href={'/me/recipes'}
                                 className={`flex items-center gap-3 ease-out duration-200 ${
                                     crumb === 'recipes'
                                         ? 'text-rose-500'
@@ -132,59 +150,52 @@ export default function Notifications() {
                         </li>
                     </ul>
                 </aside>
-                <main className="flex flex-1 flex-col gap-16 p-4">
+                <main className="flex flex-1 flex-col gap-4 p-4">
                     <div className="flex flex-col gap-10">
                         <h2 className="text-2xl font-semibold leading-7 text-gray-900">
-                            Notifications
+                            Recipes
                         </h2>
-                        <div className="flex flex-col gap-2">
-                            <label
-                                htmlFor="firstName"
-                                className="flex flex-col items-start gap-2 font-medium text-gray-700"
-                            >
-                                New recipes
-                            </label>
-                            <div className="flex items-center gap-4">
-                                <span className="text-sm text-gray-500">
-                                    Do you want to be notified of new recipes?
-                                </span>
-                                <button
-                                    onClick={() =>
-                                        setLangMenu((langMenu) => !langMenu)
-                                    }
-                                    onBlur={() => setLangMenu(false)}
-                                    type="button"
-                                    title="Change language"
-                                    className="w-8 cursor-pointer rounded-full bg-gray-300 p-0.5 duration-200 ease-out focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-rose-500"
-                                >
-                                    <span className="block h-4 max-h-4 min-h-4 w-4 min-w-4 max-w-4 rounded-full bg-white" />
-                                </button>
+                    </div>
+                    <div className="mt-12 flex flex-col items-center gap-6">
+                        {typeof recipes !== 'string' ? (
+                            recipes.length > 0 ? (
+                                recipes.map((recipe) => (
+                                    <RecipeCard key={recipe.id} data={recipe} />
+                                ))
+                            ) : (
+                                <>
+                                    <div className="h-36 w-full animate-pulse rounded-2xl bg-gray-300" />
+                                    <div className="h-36 w-full animate-pulse rounded-2xl bg-gray-300" />
+                                    <div className="h-36 w-full animate-pulse rounded-2xl bg-gray-300" />
+                                    <div className="h-36 w-full animate-pulse rounded-2xl bg-gray-300" />
+                                    <div className="h-36 w-full animate-pulse rounded-2xl bg-gray-300" />
+                                </>
+                            )
+                        ) : (
+                            <div className="group flex h-36 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl p-4 outline-dashed outline-2 outline-gray-300 duration-200 ease-out hover:outline-rose-400">
+                                <div className="flex gap-4 text-gray-600 duration-300 group-hover:scale-105 group-hover:text-rose-500">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        id="Layer_1"
+                                        data-name="Layer 1"
+                                        viewBox="0 0 24 24"
+                                        fill="currentColor"
+                                        className="h-6 w-6"
+                                    >
+                                        <path d="M9,4H7V0H9Zm4-4H11V4h2ZM5,0H3V4H5ZM24,18c0,5.221-9.4,6-15,6A81.716,81.716,0,0,1,.835,22.986L0,22.847V16A9.01,9.01,0,0,1,9,7a18.144,18.144,0,0,1,2.409.164A17.517,17.517,0,0,1,17.091,6l.434-.014.538.537,1.716-1.715a1.5,1.5,0,1,1,2.063-.65A1.485,1.485,0,0,1,22.5,4a1.5,1.5,0,1,1-1.307,2.222L19.477,7.937l.538.538L20,8.909c-.006.19-.04.9-.164,1.833C22.442,12.856,24,15.548,24,18ZM10,12.312a3.667,3.667,0,0,0,1.08,2.608,3.777,3.777,0,0,0,5.215,0c1.145-1.146,1.577-4.153,1.683-5.653L16.733,8.022c-1.5.106-4.507.537-5.653,1.683A3.667,3.667,0,0,0,10,12.312ZM22,18a7.516,7.516,0,0,0-2.613-4.988,7.543,7.543,0,0,1-1.678,3.322A5.678,5.678,0,0,1,9.081,9,7.075,7.075,0,0,0,2,16v5.149A68.5,68.5,0,0,0,9,22C15,22,22,20.953,22,18Z" />
+                                    </svg>
+                                    <span className="text-lg font-medium">
+                                        Let&apos;s cook something new...
+                                    </span>
+                                </div>
+                                <p className="text-sm text-gray-500">
+                                    Add some recipes to get started with{' '}
+                                    <span className="text-rose-500">
+                                        Daily Recipes
+                                    </span>
+                                </p>
                             </div>
-                        </div>
-                        <div className="flex flex-col gap-2">
-                            <label
-                                htmlFor="firstName"
-                                className="flex flex-col items-start gap-2 font-medium text-gray-700"
-                            >
-                                Tags
-                            </label>
-                            <div className="flex items-center gap-4">
-                                <span className="text-sm text-gray-500">
-                                    Do you want to be notified when there&apos;s a new recipe with your selected tags?
-                                </span>
-                                <button
-                                    onClick={() =>
-                                        setLangMenu((langMenu) => !langMenu)
-                                    }
-                                    onBlur={() => setLangMenu(false)}
-                                    type="button"
-                                    title="Change language"
-                                    className="w-8 cursor-pointer rounded-full bg-gray-300 p-0.5 duration-200 ease-out focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-rose-500"
-                                >
-                                    <span className="block h-4 max-h-4 min-h-4 w-4 min-w-4 max-w-4 rounded-full bg-white" />
-                                </button>
-                            </div>
-                        </div>
+                        )}
                     </div>
                 </main>
             </div>

@@ -163,12 +163,12 @@ export default function Navbar({ labels = true }: NavbarInterface) {
                                                     {user.preferredLanguage}
                                                 </span>
                                             </li>
-                                            <li className='border-gray-300 py-2'>
+                                            <li className="border-gray-300 py-2">
                                                 <hr />
                                             </li>
                                             <li className="w-full">
                                                 <Link
-                                                    href={'/account'}
+                                                    href={'/me'}
                                                     className="flex w-full cursor-pointer items-center justify-center gap-6 rounded-xl px-4 py-2 hover:bg-gray-200"
                                                 >
                                                     <div className="flex h-5 w-5 min-w-5 items-center justify-center">

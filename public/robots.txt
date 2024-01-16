@@ -1,8 +1,8 @@
 # Block all crawlers for /accounts, /security & /notifications
 User-agent: *
-Disallow: /account
-Disallow: /security
-Disallow: /notifications
+Disallow: /me
+Disallow: /me/security
+Disallow: /me/notifications
 
 # Allow all crawlers
 User-agent: *

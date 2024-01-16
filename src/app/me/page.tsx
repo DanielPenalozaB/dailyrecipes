@@ -100,9 +100,9 @@ export default function Account() {
                     <ul className="flex flex-col gap-4 p-4 text-sm">
                         <li>
                             <Link
-                                href={'/account'}
+                                href={'/me'}
                                 className={`flex items-center gap-3 ease-out duration-200 ${
-                                    crumb === 'account'
+                                    crumb === 'me'
                                         ? 'text-rose-500'
                                         : 'text-gray-800 hover:text-rose-500'
                                 }`}
@@ -129,7 +129,7 @@ export default function Account() {
                         </li>
                         <li>
                             <Link
-                                href={'/security'}
+                                href={'/me/security'}
                                 className={`flex items-center gap-3 ease-out duration-200 ${
                                     crumb === 'security'
                                         ? 'text-rose-500'
@@ -158,7 +158,7 @@ export default function Account() {
                         </li>
                         <li>
                             <Link
-                                href={'/notifications'}
+                                href={'/me/notifications'}
                                 className={`flex items-center gap-3 ease-out duration-200 ${
                                     crumb === 'notifications'
                                         ? 'text-rose-500'
@@ -187,7 +187,7 @@ export default function Account() {
                         </li>
                         <li>
                             <Link
-                                href={'/recipes'}
+                                href={'/me/recipes'}
                                 className={`flex items-center gap-3 ease-out duration-200 ${
                                     crumb === 'recipes'
                                         ? 'text-rose-500'

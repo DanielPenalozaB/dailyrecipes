@@ -14,7 +14,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/', request.url));
     }
 
-    if (request.nextUrl.pathname === '/account' && !verifiedToken) {
+    if (request.nextUrl.pathname.startsWith('/me') && !verifiedToken) {
         return NextResponse.redirect(new URL('/auth', request.url));
     }
 
@@ -22,5 +22,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/', '/auth', '/account', '/security'],
+    matcher: ['/', '/auth', '/me'],
 };
