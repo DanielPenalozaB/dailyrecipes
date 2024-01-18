@@ -172,7 +172,10 @@ export default function Recipes() {
                                 </>
                             )
                         ) : (
-                            <div className="group flex h-36 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl p-4 outline-dashed outline-2 outline-gray-300 duration-200 ease-out hover:outline-rose-400">
+                            <a
+                                href="/me/recipes/create"
+                                className="group flex h-36 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl p-4 outline-dashed outline-2 outline-gray-300 duration-200 ease-out hover:outline-rose-400"
+                            >
                                 <div className="flex gap-4 text-gray-600 duration-300 group-hover:scale-105 group-hover:text-rose-500">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -194,7 +197,7 @@ export default function Recipes() {
                                         Daily Recipes
                                     </span>
                                 </p>
-                            </div>
+                            </a>
                         )}
                     </div>
                 </main>
